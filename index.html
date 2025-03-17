@@ -73,12 +73,15 @@
                 }
             });
 
+            let requestUrl = "https://script.google.com/macros/s/AKfycbz9R9SwGRgwmp0PKQFji--firU_OJ_IUAoaT9mh9l5bo2eY_VB_9_Qnqp_pdR1IYG1njQ/exec?" + params.toString();
+            console.log("Отправка запроса: ", requestUrl); // Вывод URL запроса в консоль
+
             if (!params.toString()) {
                 alert("Заповніть хоча б одне поле!");
                 return;
             }
 
-            fetch("https://script.google.com/macros/s/AKfycbz9R9SwGRgwmp0PKQFji--firU_OJ_IUAoaT9mh9l5bo2eY_VB_9_Qnqp_pdR1IYG1njQ/exec?" + params.toString())
+            fetch(requestUrl)
             .then(response => response.text())
             .then(result => alert("Дані відправлено!"))
             .catch(error => alert("Помилка: " + error));
