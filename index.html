@@ -60,24 +60,26 @@
     </form>
 
     <script>
-        function sendData() {
-    let baseUrl = "https://script.google.com/macros/s/AKfycbwKg-l3jXJO_gEk1gNAxkF8V8-HkBCcvbJBT5BZpj4/dev"; // ВАШ URL
-    let params = new URLSearchParams();
+	function doGet(e) {
+  var sheet = SpreadsheetApp.openById("1AMV9Uy8xMA0NqiuauhxqAmATaiVzETR33Ci4zrziNVY").getActiveSheet();
+  var params = e.parameter; // Получаем все переданные параметры
 
-    // Собираем данные из всех полей ввода
-    document.querySelectorAll("input[data-cell]").forEach(input => {
-        let cell = input.getAttribute("data-cell");
-        let value = input.value.trim();
-        if (value) { // Пропускаем пустые поля
-            params.append(cell, value);
-        }
-    });
+  for (var cell in params) {
+    if (params.hasOwnProperty(cell)) {
+      sheet.getRange(cell).setValue(params[cell]); // Записываем в таблицу
+    }
+  }
 
-    // Отправляем GET-запрос
-    fetch(`${baseUrl}?${params.toString()}`)
-        .then(response => response.text())
-        .then(data => console.log("Ответ сервера:", data))
-        .catch(error => console.error("Ошибка отправки:", error));
+  var output = ContentService.createTextOutput("OK");
+  output.setMimeType(ContentService.MimeType.JSON);
+
+  // **Разрешаем CORS**
+  output.append("\n")
+        .append("Access-Control-Allow-Origin: *\n")
+        .append("Access-Control-Allow-Methods: GET, POST\n")
+        .append("Access-Control-Allow-Headers: Content-Type");
+
+  return output;
 }
 
     </script>
