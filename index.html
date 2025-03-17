@@ -1,47 +1,60 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="uk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Запись в Google Таблицу</title>
+    <title>Форма введення параметрів</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
-        input { padding: 10px; margin: 5px; }
-        button { padding: 10px 20px; background: green; color: white; border: none; cursor: pointer; }
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: auto;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input {
+            width: 100%;
+            padding: 5px;
+            margin-top: 3px;
+        }
+        button {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: blue;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
-
-    <h2>Добавить данные в Google Таблицу</h2>
-    
-    <input type="text" id="value1" placeholder="Введите Value1"><br>
-    <input type="text" id="value2" placeholder="Введите Value2"><br>
-    <button onclick="sendData()">Отправить</button>
-
-    <p id="status"></p>
-
+    <h2>Введіть дані</h2>
+    <form id="dataForm">
+        <label>Дата (B2): <input type="text" id="B2"></label>
+        <label>Номер серії (B3): <input type="text" id="B3"></label>
+        <label>Реактор № (B4): <input type="text" id="B4"></label>
+        <label>Шлям (B5): <input type="text" id="B5"></label>
+        <label>Вода зі шлямовочної лінії (B6): <input type="text" id="B6"></label>
+        <label>Солона вода (B7): <input type="text" id="B7"></label>
+        <label>Вода (B8): <input type="text" id="B8"></label>
+        <label>Сіль (B9): <input type="text" id="B9"></label>
+        <label>Сода (NaOH) (B10): <input type="text" id="B10"></label>
+        <button type="button" onclick="submitData()">Відправити</button>
+    </form>
     <script>
-        function sendData() {
-            var value1 = document.getElementById("value1").value;
-            var value2 = document.getElementById("value2").value;
-            var scriptURL = "https://script.google.com/macros/s/AKfycbwymezGK86nAcl3OQ0dmMl7dYee-n3XSEgLbU4jKN6xQsf1PPgkWbH0eEiblJBxZh65dA/exec";
-
-            if (!value1 || !value2) {
-                document.getElementById("status").innerHTML = "⚠️ Заполните все поля!";
-                return;
-            }
-
-            fetch(`${scriptURL}?value1=${encodeURIComponent(value1)}&value2=${encodeURIComponent(value2)}`)
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById("status").innerHTML = "✅ Данные добавлены!";
-                })
-                .catch(error => {
-                    document.getElementById("status").innerHTML = "❌ Ошибка отправки!";
-                    console.error("Ошибка:", error);
-                });
+        function submitData() {
+            let data = {};
+            document.querySelectorAll('input').forEach(input => {
+                if (input.value.trim() !== "") {
+                    data[input.id] = input.value.trim();
+                }
+            });
+            
+            console.log("Збережені дані:", data);
+            alert("Дані успішно записані!");
         }
     </script>
-
 </body>
 </html>
