@@ -67,9 +67,9 @@
             const formData = new FormData(document.getElementById("dataForm"));
             let params = new URLSearchParams();
 
-            formData.forEach((value, key) => {
+            formData.forEach((value, cell) => {
                 if (value.trim() !== "") {
-                    params.append(key, value.trim());
+                    params.append(cell, value.trim());
                 }
             });
 
