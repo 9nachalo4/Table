@@ -65,26 +65,18 @@
     <script>
         function sendData() {
             const formData = new FormData(document.getElementById("dataForm"));
-            let paramsArray = [];
-
+            
             formData.forEach((value, key) => {
                 if (value.trim() !== "") {
-                    paramsArray.push(`cell=${encodeURIComponent(key)}&value=${encodeURIComponent(value.trim())}`);
+                    let requestUrl = `https://script.google.com/macros/s/AKfycbz9R9SwGRgwmp0PKQFji--firU_OJ_IUAoaT9mh9l5bo2eY_VB_9_Qnqp_pdR1IYG1njQ/exec?cell=${encodeURIComponent(key)}&value=${encodeURIComponent(value.trim())}`;
+                    console.log("Отправка запроса: ", requestUrl);
+                    
+                    fetch(requestUrl)
+                    .then(response => response.text())
+                    .then(result => console.log("Дані відправлено для", key))
+                    .catch(error => console.log("Помилка: " + error));
                 }
             });
-
-            if (paramsArray.length === 0) {
-                alert("Заповніть хоча б одне поле!");
-                return;
-            }
-
-            let requestUrl = "https://script.google.com/macros/s/AKfycbz9R9SwGRgwmp0PKQFji--firU_OJ_IUAoaT9mh9l5bo2eY_VB_9_Qnqp_pdR1IYG1njQ/exec?" + paramsArray.join("&");
-            console.log("Отправка запроса: ", requestUrl);
-
-            fetch(requestUrl)
-            .then(response => response.text())
-            .then(result => alert("Дані відправлено!"))
-            .catch(error => alert("Помилка: " + error));
         }
     </script>
 </body>
