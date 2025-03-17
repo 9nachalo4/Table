@@ -1,87 +1,54 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Форма для Google Таблиць</title>
+    <title>Отправка данных в Google Таблицу</title>
     <style>
-        body { font-family: Arial, sans-serif; max-width: 600px; margin: auto; }
-        label { display: block; margin-top: 10px; }
-        input { width: 100%; padding: 5px; margin-top: 3px; }
-        button { margin-top: 15px; padding: 10px; background: #007bff; color: white; border: none; cursor: pointer; }
-        button:hover { background: #0056b3; }
+        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
+        input, button { margin: 10px; padding: 10px; font-size: 16px; }
     </style>
 </head>
 <body>
-    <h2>Заповнення Google Таблиці</h2>
-    <form id="dataForm">
-        <label>Дата <input type="text" name="B2"></label>
-        <label>Номер серії <input type="text" name="B3"></label>
-        <label>Реактор № <input type="text" name="B4"></label>
-        <label>Шлям (мукоза) <input type="text" name="B5"></label>
-        <label>Вода зі шлямовочної лінії <input type="text" name="B6"></label>
-        <label>Солона вода <input type="text" name="B7"></label>
-        <label>Вода (кг) <input type="text" name="B8"></label>
-        <label>Сіль <input type="text" name="B9"></label>
-        <label>Сода (NaOH) <input type="text" name="B10"></label>
-        <label>Протеаза (фермент) <input type="text" name="B11"></label>
-        <label>Густина при 55⁰C <input type="text" name="B13"></label>
-        <label>рН при 55⁰С <input type="text" name="B14"></label>
-        <label>Густина при 58-60⁰C <input type="text" name="B15"></label>
-        <label>рН при 58-60⁰С <input type="text" name="B16"></label>
-        <label>Температура 60⁰С <input type="text" name="B17"></label>
-        <label>Відстоювання 2 год <input type="text" name="B18"></label>
-        <label>Температура 65⁰С <input type="text" name="B19"></label>
-        <label>Охолодження <input type="text" name="B23"></label>
-        <label>Густина при 61⁰-63⁰C <input type="text" name="B24"></label>
-        <label>рН при 61⁰-63⁰С <input type="text" name="B25"></label>
-        <label>Іонообмінна смола <input type="text" name="B26"></label>
-        <label>Дата завантаження десорбера <input type="text" name="B31"></label>
-        <label>Загальна вага сировини <input type="text" name="B32"></label>
-        <label>Загальна вага смоли <input type="text" name="B33"></label>
-        <label>Температура промивочної води <input type="text" name="B34"></label>
-        <label>Густина при 55⁰-60⁰ <input type="text" name="B35"></label>
-        <label>Початок промивки <input type="text" name="B36"></label>
-        <label>Кінець промивки <input type="text" name="B37"></label>
-        <label>Підготовлена вода <input type="text" name="B39"></label>
-        <label>Температура води <input type="text" name="B40"></label>
-        <label>Густина при 55⁰-60⁰C <input type="text" name="B41"></label>
-        <label>Початок елюенції <input type="text" name="B42"></label>
-        <label>Початок декантації <input type="text" name="B43"></label>
-        <label>Температура елюенту <input type="text" name="B45"></label>
-        <label>Густина елюенту <input type="text" name="B46"></label>
-        <label>Вміст спирту <input type="text" name="B48"></label>
-        <label>Початок відстоювання <input type="text" name="B49"></label>
-        <label>Декантация спиртоводної суміші <input type="text" name="B50"></label>
-        <label>Кількість спирту <input type="text" name="B52"></label>
-        <label>Сушка продукту <input type="text" name="B53"></label>
-        <label>Готова продукція <input type="text" name="B54"></label>
-        <button type="button" onclick="sendData()">Відправити</button>
-    </form>
+
+    <h2>Отправка данных в Google Таблицу</h2>
+
+    <label>Ячейка (например, A1):</label>
+    <input type="text" id="cell" placeholder="Введите ячейку">
+    <br>
+
+    <label>Значение:</label>
+    <input type="text" id="value" placeholder="Введите значение">
+    <br>
+
+    <button onclick="sendData()">Отправить</button>
+
+    <p id="status"></p>
 
     <script>
-	function doGet(e) {
-  var sheet = SpreadsheetApp.openById("1AMV9Uy8xMA0NqiuauhxqAmATaiVzETR33Ci4zrziNVY").getActiveSheet();
-  var params = e.parameter; // Получаем все переданные параметры
+        function sendData() {
+            let cell = document.getElementById("cell").value;
+            let value = document.getElementById("value").value;
 
-  for (var cell in params) {
-    if (params.hasOwnProperty(cell)) {
-      sheet.getRange(cell).setValue(params[cell]); // Записываем в таблицу
-    }
-  }
+            if (!cell || !value) {
+                document.getElementById("status").innerText = "Ошибка: заполните все поля!";
+                return;
+            }
 
-  var output = ContentService.createTextOutput("OK");
-  output.setMimeType(ContentService.MimeType.JSON);
+            let scriptURL = "ВАШ_GOOGLE_APPS_SCRIPT_URL"; // Замените на свой URL
 
-  // **Разрешаем CORS**
-  output.append("\n")
-        .append("Access-Control-Allow-Origin: *\n")
-        .append("Access-Control-Allow-Methods: GET, POST\n")
-        .append("Access-Control-Allow-Headers: Content-Type");
+            let url = `${scriptURL}?cell=${encodeURIComponent(cell)}&value=${encodeURIComponent(value)}`;
 
-  return output;
-}
-
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("status").innerText = "Ответ сервера: " + data;
+                })
+                .catch(error => {
+                    document.getElementById("status").innerText = "Ошибка отправки: " + error;
+                });
+        }
     </script>
+
 </body>
 </html>
