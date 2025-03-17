@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Запись в Google Таблицу</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
+        input { padding: 10px; margin: 5px; }
+        button { padding: 10px 20px; background: green; color: white; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <h2>Добавить данные в Google Таблицу</h2>
+    
+    <input type="text" id="value1" placeholder="Введите Value1"><br>
+    <input type="text" id="value2" placeholder="Введите Value2"><br>
+    <button onclick="sendData()">Отправить</button>
+
+    <p id="status"></p>
+
+    <script>
+        function sendData() {
+            var value1 = document.getElementById("value1").value;
+            var value2 = document.getElementById("value2").value;
+            var scriptURL = "https://script.google.com/macros/s/AKfycbwymezGK86nAcl3OQ0dmMl7dYee-n3XSEgLbU4jKN6xQsf1PPgkWbH0eEiblJBxZh65dA/exec";
+
+            if (!value1 || !value2) {
+                document.getElementById("status").innerHTML = "⚠️ Заполните все поля!";
+                return;
+            }
+
+            fetch(`${scriptURL}?value1=${encodeURIComponent(value1)}&value2=${encodeURIComponent(value2)}`)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("status").innerHTML = "✅ Данные добавлены!";
+                })
+                .catch(error => {
+                    document.getElementById("status").innerHTML = "❌ Ошибка отправки!";
+                    console.error("Ошибка:", error);
+                });
+        }
+    </script>
+
+</body>
+</html>
