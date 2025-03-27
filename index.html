@@ -1,5 +1,4 @@
-String getWebPage() {
-    return R"rawliteral(
+
         <!DOCTYPE html>
         <html lang="ru">
         <head>
@@ -31,18 +30,22 @@ String getWebPage() {
                     margin-bottom: 10px;
                     position: relative;
                 }
-                .menu-btn {
-                    font-size: 24px;
-                    cursor: pointer;
-                    background: none;
-                    border: none;
-                }
+.menu-btn {
+    font-size: 22px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    position: absolute;
+    right: -175px; /* Сместил кнопку правее */
+    top: 20px; /* Сместил кнопку вниз */
+}
+
                 .menu {
                     display: none;
                     position: absolute;
-                    top: 40px;
-                    right: 0px;
-                    width: 220px;
+                    top: 70px;
+                    right: 14px;
+                    width: 350px;
                     background: white;
                     border: 1px solid #ccc;
                     padding: 10px;
@@ -95,6 +98,7 @@ String getWebPage() {
                     font-size: 18px;
                     color: #333;
                 }
+				
             </style>
         </head>
         <body>
@@ -132,53 +136,5 @@ String getWebPage() {
                 </div>
             </div>
 
-            <script>
-                function toggleMenu() {
-                    var menu = document.getElementById("menu");
-                    menu.style.display = (menu.style.display === "block") ? "none" : "block";
-                }
-
-                function sendCommand(url) {
-                    fetch(url).then(response => response.text()).then(alert);
-                }
-
-                function sendMode(mode) {
-                    fetch('/sendMode?mode=' + mode).then(response => response.text()).then(alert);
-                    toggleMenu();
-                }
-
-                function setShnekFrequency() {
-                    let value = document.getElementById('freqShnek').value;
-                    fetch('/setShnek?value=' + value).then(response => response.text()).then(alert);
-                }
-
-                function setDymososFrequency() {
-                    let value = document.getElementById('freqDymosos').value;
-                    fetch('/setDymosos?value=' + value).then(response => response.text()).then(alert);
-                }
-
-                function updateTemperature() {
-                    fetch('/temperature').then(response => response.text()).then(temp => {
-                        document.getElementById('temperature').textContent = temp;
-                    });
-                    fetch('/reg1').then(response => response.text()).then(val => {
-                        document.getElementById('reg1value').textContent = val;
-                    });
-                }
-
-                function updateRegValues() {
-                    fetch('/reg4').then(response => response.text()).then(val => {
-                        document.getElementById('reg4value').textContent = val;
-                    });
-                    fetch('/reg5').then(response => response.text()).then(val => {
-                        document.getElementById('reg5value').textContent = val;
-                    });
-                }
-
-                setInterval(updateTemperature, 1000);
-                setInterval(updateRegValues, 1000);
-            </script>
-        </body>
+      </body>
         </html>
-    )rawliteral";
-}
