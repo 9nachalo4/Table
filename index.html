@@ -6,30 +6,55 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Управление системой</title>
             <style>
-                body {
-                    font-family: 'Segoe UI', sans-serif;
-                    text-align: center;
-                    margin: 0;
-                    padding: 20px;
-                    background-color: #f4f4f4;
-                }
-                .container {
-                    max-width: 400px;
-                    margin: auto;
-                    background: white;
-                    padding: 20px;
-                    border-radius: 15px;
-                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                }
-                .header {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    font-size: 14px;
-                    font-weight: lighter;
-                    margin-bottom: 10px;
-                    position: relative;
-                }
+:root {
+    --bg-color: #f4f4f4;
+    --text-color: #000;
+    --container-bg: rgba(255, 255, 255, 0); /* Прозрачный белый */
+    --button-bg: #007BFF;
+    --button-text: white;
+}
+
+
+.dark-theme {
+    --bg-color: #181818;
+    --text-color: #fff;
+    --container-bg: rgba(35, 35, 35, 0);
+    --button-bg: #444;
+    --button-text: #fff;
+}
+.dark-theme .form {
+    background: #333; /* Темный фон для темной темы */
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Segoe UI', sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0; /* Убираем отступы */
+    transition: 0.3s;
+}
+
+.container {
+    background: var(--container-bg);
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    font-weight: lighter;
+    margin-bottom: 10px;
+    position: relative;
+}
+
 .menu-btn {
     font-size: 22px;
     cursor: pointer;
@@ -40,68 +65,142 @@
     top: 20px; /* Сместил кнопку вниз */
 }
 
-                .menu {
-                    display: none;
-                    position: absolute;
-                    top: 70px;
-                    right: 14px;
-                    width: 350px;
-                    background: white;
-                    border: 1px solid #ccc;
-                    padding: 10px;
-                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-                    border-radius: 10px;
-                    text-align: left;
-                }
-                .menu button {
-                    display: block;
-                    width: 100%;
-                    margin: 5px 0;
-                    padding: 8px;
-                    font-size: 14px;
-                    border: none;
-                    cursor: pointer;
-                    border-radius: 5px;
-                    background: #007BFF;
-                    color: white;
-                }
-                .form {
-                    margin-top: 20px;
-                    background: #e3e3e3;
-                    padding: 15px;
-                    border-radius: 10px;
-                }
-                button {
-                    width: 100%;
-                    padding: 12px;
-                    margin-top: 10px;
-                    font-size: 16px;
-                    border: none;
-                    cursor: pointer;
-                    border-radius: 5px;
-                    transition: 0.3s;
-                }
-                .btn-start { background: #4CAF50; color: white; }
-                .btn-stop { background: #f44336; color: white; }
-                .btn-settings { background: #007BFF; color: white; }
-                button:hover { opacity: 0.8; }
-                input {
-                    width: calc(100% - 20px);
-                    padding: 8px;
-                    font-size: 16px;
-                    border: 1px solid #ccc;
-                    border-radius: 5px;
-                    margin-top: 5px;
-                }
-                .frequency {
-                    margin-top: 10px;
-                    font-size: 18px;
-                    color: #333;
-                }
+.menu {
+    display: none;
+    position: absolute;
+    top: 70px;
+    right: 14px;
+    width: 350px;
+    background: var(--container-bg);
+    border: 1px solid #444;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    text-align: left;
+}
+
+.menu button {
+    display: block;
+    width: 100%;
+    margin: 5px 0;
+    padding: 8px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    background: #007BFF;
+    color: white;
+}
+
+.form {
+    margin-top: 20px;
+    background: #e3e3e3;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+.dark-theme .btn-start {
+    background: #2c2c2c ;
+    color: white;
+    border: 2px solid #1c1c1c; /* Темная обводка для кнопки в темной теме */
+}
+.dark-theme .btn-stop {
+    background: #2c2c2c ;
+    color: white;
+    border: 2px solid #1c1c1c; /* Темная обводка для кнопки в темной теме */
+}
+.dark-theme .btn-settings {
+    background: #2c2c2c ;
+    color: white;
+    border: 2px solid #1c1c1c; /* Темная обводка для кнопки в темной теме */
+}
+.btn-start { background: #4CAF50; color: white; }
+.btn-stop { background: #f44336; color: white; }
+.btn-settings { background: #007BFF; color: white; }
+
+button:hover {
+    opacity: 0.8;
+}
+
+input {
+    width: calc(100% - 20px);
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+.frequency {
+    margin-top: 10px;
+    font-size: 18px;
+    color: #333;
+}
+
+.theme-toggle {
+    position: fixed;
+    top: 60px;
+    right: 180px;
+    font-size: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.dark-theme button {
+    background: rgba(68, 68, 68, 0); /* Полностью прозрачный фон для кнопок */
+    color: rgba(255, 255, 255, 1); /* Сделать текст также прозрачным (если нужно) */
+}
+
+
+.dark-theme .container {
+    background: var(--container-bg);
+}
+
+.dark-theme input {
+    background: #333;
+    color: #fff;
+    border: 1px solid #444;
+}
+
+.dark-theme .frequency {
+    color: #ddd;
+}
+
+/* Исправления для контейнера переключателей */
+.menu, .theme-toggle {
+    background: var(--container-bg); /* Устанавливаем темный фон */
+    border: none;
+    box-shadow: none;
+}
+
+/* Убираем лишние отступы в верхней части экрана */
+body {
+    padding-top: 0; /* Убираем отступ сверху */
+}
+
+.menu-btn {
+    z-index: 1000; /* При необходимости, увеличиваем индекс для кнопки */
+}
+
+
+
 				
             </style>
         </head>
         <body>
+		<button class="theme-toggle" onclick="toggleTheme()">🌙</button>
             <div class="container">
                 <div class="header">
                     <div>Температура котла: <span id="temperature">-</span>°C</div>
@@ -140,9 +239,19 @@
                 function toggleMenu() {
                     var menu = document.getElementById("menu");
                     menu.style.display = (menu.style.display === "block") ? "none" : "block";
-                }
+                } 
+function toggleTheme() {
+    document.body.classList.toggle('dark-theme');
+    let themeButton = document.querySelector('.theme-toggle');
+    if (document.body.classList.contains('dark-theme')) {
+        themeButton.textContent = "☀️"; // Светлая тема
+    } else {
+        themeButton.textContent = "🌙"; // Тёмная тема
+    }
+}
 
-               
+
+
             </script> 
       </body>
         </html>
