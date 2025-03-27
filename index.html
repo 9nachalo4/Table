@@ -223,9 +223,10 @@ body {
             </style>
         </head>
         <body>
-		<button class="theme-toggle" onclick="toggleTheme()">🌙</button>
             <div class="container">
                 <div class="header">
+						<button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+
                     <div>Температура котла: <span id="temperature">-</span>°C</div>
                     <div>Температура циклона: <span id="reg1value">-</span>°C</div>
                     <button class="menu-btn" onclick="toggleMenu()">☰</button>
@@ -273,6 +274,47 @@ function toggleTheme() {
     }
 }
 
+
+
+                function sendCommand(url) {
+                    fetch(url).then(response => response.text()).then(alert);
+                }
+
+                function sendMode(mode) {
+                    fetch('/sendMode?mode=' + mode).then(response => response.text()).then(alert);
+                    toggleMenu();
+                }
+
+                function setShnekFrequency() {
+                    let value = document.getElementById('freqShnek').value;
+                    fetch('/setShnek?value=' + value).then(response => response.text()).then(alert);
+                }
+
+                function setDymososFrequency() {
+                    let value = document.getElementById('freqDymosos').value;
+                    fetch('/setDymosos?value=' + value).then(response => response.text()).then(alert);
+                }
+
+                function updateTemperature() {
+                    fetch('/temperature').then(response => response.text()).then(temp => {
+                        document.getElementById('temperature').textContent = temp;
+                    });
+                    fetch('/reg1').then(response => response.text()).then(val => {
+                        document.getElementById('reg1value').textContent = val;
+                    });
+                }
+
+                function updateRegValues() {
+                    fetch('/reg4').then(response => response.text()).then(val => {
+                        document.getElementById('reg4value').textContent = val;
+                    });
+                    fetch('/reg5').then(response => response.text()).then(val => {
+                        document.getElementById('reg5value').textContent = val;
+                    });
+                }
+
+                setInterval(updateTemperature, 1000);
+                setInterval(updateRegValues, 1000);
             </script> 
       </body>
         </html>
