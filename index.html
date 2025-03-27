@@ -1,83 +1,127 @@
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Заповнення Google Таблиці</title>
-    <style>
-        body { font-family: Arial, sans-serif; max-width: 600px; margin: auto; }
-        label { display: block; margin-top: 10px; }
-        input { width: 100%; padding: 5px; margin-top: 3px; }
-        button { margin-top: 15px; padding: 10px; background: #007bff; color: white; border: none; cursor: pointer; }
-        button:hover { background: #0056b3; }
-    </style>
-</head>
-<body>
-    <h2>Заповнення Google Таблиці</h2>
-    <form id="dataForm">
-        <label>Дата <input type="text" name="B2"></label>
-        <label>Номер серії <input type="text" name="B3"></label>
-        <label>Реактор № <input type="text" name="B4"></label>
-        <label>Шлям (мукоза) <input type="text" name="B5"></label>
-        <label>Вода зі шлямовочної лінії <input type="text" name="B6"></label>
-        <label>Солона вода <input type="text" name="B7"></label>
-        <label>Вода <input type="text" name="B8"></label>
-        <label>Сіль <input type="text" name="B9"></label>
-        <label>Сода (NaOH) <input type="text" name="B10"></label>
-        <label>Протеаза <input type="text" name="B11"></label>
-        <label>Густина при 55⁰C <input type="text" name="B13"></label>
-        <label>рН при 55⁰С <input type="text" name="B14"></label>
-        <label>Густина при 58-60⁰C <input type="text" name="B15"></label>
-        <label>рН при 58-60⁰С <input type="text" name="B16"></label>
-        <label>Температура 60⁰С <input type="text" name="B17"></label>
-        <label>2,0 год відстоювання <input type="text" name="B18"></label>
-        <label>Температура 65⁰С <input type="text" name="B19"></label>
-        <label>Відстоювання 3 год <input type="text" name="B20"></label>
-        <label>Фільтрація <input type="text" name="B21"></label>
-        <label>Реактор № <input type="text" name="B22"></label>
-        <label>Охолодження <input type="text" name="B23"></label>
-        <label>Густина при 61⁰-63⁰C <input type="text" name="B24"></label>
-        <label>рН при 61⁰-63⁰С <input type="text" name="B25"></label>
-        <label>Іонообмінна смола <input type="text" name="B26"></label>
-        <label>Дата завантаження десорбера <input type="text" name="B31"></label>
-        <label>Загальна вага сировини <input type="text" name="B32"></label>
-        <label>Загальна вага смоли <input type="text" name="B33"></label>
-        <label>Температура промивочної води <input type="text" name="B34"></label>
-        <label>Густина при 55⁰-60⁰ <input type="text" name="B35"></label>
-        <label>Початок промивки <input type="text" name="B36"></label>
-        <label>Кінець промивки <input type="text" name="B37"></label>
-        <label>Підготовлена вода <input type="text" name="B39"></label>
-        <label>Температура води <input type="text" name="B40"></label>
-        <label>Густина при 55⁰-60⁰C <input type="text" name="B41"></label>
-        <label>Початок елюенції <input type="text" name="B42"></label>
-        <label>Початок декантації <input type="text" name="B43"></label>
-        <label>Температура елюенту <input type="text" name="B45"></label>
-        <label>Густина елюенту <input type="text" name="B46"></label>
-        <label>Вміст спирту <input type="text" name="B48"></label>
-        <label>Початок відстоювання <input type="text" name="B49"></label>
-        <label>Декантация <input type="text" name="B50"></label>
-        <label>Кількість спирту <input type="text" name="B52"></label>
-        <label>Сушка <input type="text" name="B53"></label>
-        <label>Готова продукція <input type="text" name="B54"></label>
-        <button type="button" onclick="sendData()">Відправити</button>
-    </form>
 
-    <script>
-        function sendData() {
-            const formData = new FormData(document.getElementById("dataForm"));
-            
-            formData.forEach((value, key) => {
-                if (value.trim() !== "") {
-                    let requestUrl = `https://script.google.com/macros/s/AKfycbz9R9SwGRgwmp0PKQFji--firU_OJ_IUAoaT9mh9l5bo2eY_VB_9_Qnqp_pdR1IYG1njQ/exec?cell=${encodeURIComponent(key)}&value=${encodeURIComponent(value.trim())}`;
-                    console.log("Отправка запроса: ", requestUrl);
-                    
-                    fetch(requestUrl)
-                    .then(response => response.text())
-                    .then(result => console.log("Дані відправлено для", key))
-                    .catch(error => console.log("Помилка: " + error));
+        <!DOCTYPE html>
+        <html lang="ru">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Управление системой</title>
+            <style>
+                body {
+                    font-family: 'Segoe UI', sans-serif;
+                    text-align: center;
+                    margin: 0;
+                    padding: 20px;
+                    background-color: #f4f4f4;
                 }
-            });
-        }
-    </script>
-</body>
-</html>
+                .container {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    max-width: 400px;
+                    margin: auto;
+                    background: white;
+                    padding: 20px;
+                    border-radius: 15px;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                }
+                .header {
+                    display: flex;
+                    justify-content: space-between;
+                    width: 100%;
+                    font-size: 16px; /* Уменьшил размер */
+                    font-weight: lighter;
+                    margin-bottom: 10px;
+                }
+                .form {
+                    width: 100%;
+                    margin-top: 20px;
+                    background: #e3e3e3;
+                    padding: 15px;
+                    border-radius: 10px;
+                }
+                button {
+                    width: 100%;
+                    padding: 12px;
+                    margin-top: 10px;
+                    font-size: 16px;
+                    border: none;
+                    cursor: pointer;
+                    border-radius: 5px;
+                    transition: 0.3s;
+                }
+                .btn-start { background: #4CAF50; color: white; }
+                .btn-stop { background: #f44336; color: white; }
+                .btn-settings { background: #007BFF; color: white; }
+                button:hover { opacity: 0.8; }
+                input {
+                    width: calc(100% - 20px);
+                    padding: 8px;
+                    font-size: 16px;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                    margin-top: 5px;
+                }
+                .frequency {
+                    margin-top: 10px;
+                    font-size: 18px;
+                    color: #333;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="header">
+                    <div>Температура котла: <span id="temperature">-</span>°C</div>
+                    <div>Температура циклона: <span id="reg1value">-</span>°C</div>
+                </div>
+
+                <div class="form">
+                    <h3>Шнек</h3>
+                    <button class="btn-start" onclick="sendCommand('/start')">Включить</button>
+                    <button class="btn-stop" onclick="sendCommand('/stop')">Выключить</button>
+                    <div class="frequency">Частота: <span id="reg5value">-</span>%</div>
+                    <input type="number" id="freqShnek" min="1" max="100" placeholder="Введите частоту">
+                    <button class="btn-settings" onclick="setShnekFrequency()">Установить</button>
+                </div>
+
+                <div class="form">
+                    <h3>Дымосос</h3>
+                    <div class="frequency">Частота: <span id="reg4value">-</span>%</div>
+                    <input type="number" id="freqDymosos" min="1" max="100" placeholder="Введите частоту">
+                    <button class="btn-settings" onclick="setDymososFrequency()">Установить</button>
+                </div>
+            </div>
+
+            <script>
+                function sendCommand(url) {
+                    fetch(url).then(response => response.text()).then(alert);
+                }
+                function setShnekFrequency() {
+                    let value = document.getElementById('freqShnek').value;
+                    fetch('/setShnek?value=' + value).then(response => response.text()).then(alert);
+                }
+                function setDymososFrequency() {
+                    let value = document.getElementById('freqDymosos').value;
+                    fetch('/setDymosos?value=' + value).then(response => response.text()).then(alert);
+                }
+                function updateTemperature() {
+                    fetch('/temperature').then(response => response.text()).then(temp => {
+                        document.getElementById('temperature').textContent = temp;
+                    });
+                    fetch('/reg1').then(response => response.text()).then(val => {
+                        document.getElementById('reg1value').textContent = val;
+                    });
+                }
+                function updateRegValues() {
+                    fetch('/reg4').then(response => response.text()).then(val => {
+                        document.getElementById('reg4value').textContent = val;
+                    });
+                    fetch('/reg5').then(response => response.text()).then(val => {
+                        document.getElementById('reg5value').textContent = val;
+                    });
+                }
+                setInterval(updateTemperature, 1000);
+                setInterval(updateRegValues, 1000);
+            </script>
+        </body>
+        </html>
