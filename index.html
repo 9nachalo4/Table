@@ -9,7 +9,7 @@
 :root {
     --bg-color: #f4f4f4;
     --text-color: #000;
-    --container-bg: rgba(255, 255, 255, 0); /* Прозрачный белый */
+    --container-bg: rgba(255, 255, 255, 1); /* Прозрачный белый */
     --button-bg: #007BFF;
     --button-text: white;
 }
@@ -61,9 +61,12 @@ body {
     background: none;
     border: none;
     position: absolute;
-    right: -175px; /* Сместил кнопку правее */
+    right: 15px; /* Сместил кнопку правее */
     top: 20px; /* Сместил кнопку вниз */
+    width: 20px; /* Устанавливаем фиксированную ширину кнопки */
+    height: 40px; /* Устанавливаем высоту кнопки */
 }
+
 
 .menu {
     display: none;
@@ -71,13 +74,20 @@ body {
     top: 70px;
     right: 14px;
     width: 350px;
-    background: var(--container-bg);
+    background: #1c1c1c; /* Непрозрачный белый фон для светлой темы */
     border: 1px solid #444;
     padding: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     text-align: left;
 }
+
+.dark-theme .menu {
+    background: #1c1c1c; /* Непрозрачный темный фон для темной темы */
+}
+
+
+
 
 .menu button {
     display: block;
@@ -146,16 +156,29 @@ input {
     font-size: 18px;
     color: #333;
 }
-
 .theme-toggle {
     position: fixed;
-    top: 60px;
-    right: 180px;
-    font-size: 20px;
-    background: none;
+    top: 58px; /* Отступ сверху */
+    left: 38.5%; /* Смещаем кнопку на 50% от ширины экрана */
+    font-size: 20px; /* Увеличиваем размер иконки */
+    background: transparent; /* Прозрачный фон */
     border: none;
     cursor: pointer;
     transition: 0.3s;
+    color: #fff; /* Цвет текста (иконки) */
+    padding: 0; /* Убираем внутренние отступы */
+    text-align: center;
+    font-weight: normal; /* Убираем жирность */
+    width: auto; /* Размер кнопки будет подстраиваться под размер контента */
+    height: auto; /* То же самое для высоты */
+    transform: translateX(-50%); /* Смещаем кнопку на половину ее ширины влево */
+}
+
+
+
+.theme-toggle span {
+    display: inline-block; /* Для обеспечения корректного отображения текста */
+    opacity: 1; /* Убедимся, что текст не скрыт */
 }
 
 .dark-theme button {
@@ -249,8 +272,6 @@ function toggleTheme() {
         themeButton.textContent = "🌙"; // Тёмная тема
     }
 }
-
-
 
             </script> 
       </body>
