@@ -1,4 +1,5 @@
-
+String getWebPage() {
+    return R"rawliteral(
         <!DOCTYPE html>
         <html lang="ru">
         <head>
@@ -14,9 +15,6 @@
                     background-color: #f4f4f4;
                 }
                 .container {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
                     max-width: 400px;
                     margin: auto;
                     background: white;
@@ -27,13 +25,44 @@
                 .header {
                     display: flex;
                     justify-content: space-between;
-                    width: 100%;
-                    font-size: 16px; /* Уменьшил размер */
+                    align-items: center;
+                    font-size: 14px;
                     font-weight: lighter;
                     margin-bottom: 10px;
+                    position: relative;
+                }
+                .menu-btn {
+                    font-size: 24px;
+                    cursor: pointer;
+                    background: none;
+                    border: none;
+                }
+                .menu {
+                    display: none;
+                    position: absolute;
+                    top: 40px;
+                    right: 0px;
+                    width: 220px;
+                    background: white;
+                    border: 1px solid #ccc;
+                    padding: 10px;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+                    border-radius: 10px;
+                    text-align: left;
+                }
+                .menu button {
+                    display: block;
+                    width: 100%;
+                    margin: 5px 0;
+                    padding: 8px;
+                    font-size: 14px;
+                    border: none;
+                    cursor: pointer;
+                    border-radius: 5px;
+                    background: #007BFF;
+                    color: white;
                 }
                 .form {
-                    width: 100%;
                     margin-top: 20px;
                     background: #e3e3e3;
                     padding: 15px;
@@ -73,6 +102,17 @@
                 <div class="header">
                     <div>Температура котла: <span id="temperature">-</span>°C</div>
                     <div>Температура циклона: <span id="reg1value">-</span>°C</div>
+                    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+                    
+                    <div class="menu" id="menu">
+                        <button onclick="sendMode(1)">Шнек вкл (руч), Насос вкл (авт), Дымосос вкл (руч)</button>
+                        <button onclick="sendMode(2)">Шнек вкл (руч), Насос вкл (авт), Дымосос вкл (авт)</button>
+                        <button onclick="sendMode(3)">Шнек вкл (авт), Насос вкл (авт), Дымосос вкл (руч)</button>
+                        <button onclick="sendMode(4)">Шнек вкл (авт), Насос вкл (авт), Дымосос вкл (авт)</button>
+                        <button onclick="sendMode(5)">Шнек выкл, Насос вкл (авт), Дымосос вкл (руч)</button>
+                        <button onclick="sendMode(6)">Шнек выкл, Насос вкл (авт), Дымосос вкл (авт)</button>
+                        <button onclick="sendMode(7)">Шнек выкл, Насос вкл (авт), Дымосос выкл</button>
+                    </div>
                 </div>
 
                 <div class="form">
@@ -93,17 +133,30 @@
             </div>
 
             <script>
+                function toggleMenu() {
+                    var menu = document.getElementById("menu");
+                    menu.style.display = (menu.style.display === "block") ? "none" : "block";
+                }
+
                 function sendCommand(url) {
                     fetch(url).then(response => response.text()).then(alert);
                 }
+
+                function sendMode(mode) {
+                    fetch('/sendMode?mode=' + mode).then(response => response.text()).then(alert);
+                    toggleMenu();
+                }
+
                 function setShnekFrequency() {
                     let value = document.getElementById('freqShnek').value;
                     fetch('/setShnek?value=' + value).then(response => response.text()).then(alert);
                 }
+
                 function setDymososFrequency() {
                     let value = document.getElementById('freqDymosos').value;
                     fetch('/setDymosos?value=' + value).then(response => response.text()).then(alert);
                 }
+
                 function updateTemperature() {
                     fetch('/temperature').then(response => response.text()).then(temp => {
                         document.getElementById('temperature').textContent = temp;
@@ -112,6 +165,7 @@
                         document.getElementById('reg1value').textContent = val;
                     });
                 }
+
                 function updateRegValues() {
                     fetch('/reg4').then(response => response.text()).then(val => {
                         document.getElementById('reg4value').textContent = val;
@@ -120,8 +174,11 @@
                         document.getElementById('reg5value').textContent = val;
                     });
                 }
+
                 setInterval(updateTemperature, 1000);
                 setInterval(updateRegValues, 1000);
             </script>
         </body>
         </html>
+    )rawliteral";
+}
